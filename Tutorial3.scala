@@ -39,7 +39,7 @@ object Tutorial3{
     }
 
     def shippingCost(x:Int):Double = {
-        if(x>=50) 50*3  + (x-50)*0.75 else x*3;
+        if(x<=50) 3 else 3+ (x-50)*0.75;
     }
 
     def totalPrice(x:Int):Double = {
