@@ -34,21 +34,22 @@ object Tutorial2{
     val Normal_Hour_Rate  = 250.0;
     val OT_Hour_Rate = 85.0;
     
-    def Income(No_Of_Normal_Hours:Double, No_Of_OT_Hours:Double): Double ={
+    def Revenue(No_Of_Normal_Hours:Double, No_Of_OT_Hours:Double): Double ={
 
         No_Of_Normal_Hours*Normal_Hour_Rate + No_Of_OT_Hours*OT_Hour_Rate;
     }
 
     def TaxPay(No_Of_Normal_Hours:Double, No_Of_OT_Hours:Double): Double = {
 
-        Income(No_Of_Normal_Hours, No_Of_OT_Hours)*0.12;
+        Revenue(No_Of_Normal_Hours, No_Of_OT_Hours)*0.12;
     }
 
     def TakeHomeSalary(No_Of_Normal_Hours:Double, No_Of_OT_Hours:Double):Double = {
 
-        Income(No_Of_Normal_Hours, No_Of_OT_Hours) - TaxPay(No_Of_Normal_Hours, No_Of_OT_Hours);
+        Revenue(No_Of_Normal_Hours, No_Of_OT_Hours) - TaxPay(No_Of_Normal_Hours, No_Of_OT_Hours);
     }
 
+    println("\n");
     println("Take Home Salary: Rs."+TakeHomeSalary(40,30));
     println("\n");
 
@@ -56,11 +57,8 @@ object Tutorial2{
     
     //Question 4.b
 
-    //Full profit without reduce cost
-    def Profit(Ticket_Price: Double, Attendance: Double) : Double = Ticket_Price*Attendance;
-
     //Here we find how attenders change according to ticket price
-    def Change_Of_Attendance(Ticket_Price: Double) : Double = {
+    def Attendees(Ticket_Price: Double) : Double = {
 
         /*  If 20 ==> 100
             If 15 ==> 120
@@ -69,23 +67,26 @@ object Tutorial2{
             Ticket price is vary from 5 rupees and according to that
             no of attendance vary from 20
         */
-
-        if(Ticket_Price > 15) //Attendance must decreased, therefore the increasing average ticket price multiply by (-20)                     
-            ((Ticket_Price - 15) / 5) * (-20);
-        else if(15 > Ticket_Price) //Attendance must increased, therefore the decreasing average ticket price multiply by (+20)   
-            ((15 - Ticket_Price) / 5) * 20;
-        else
-            0; // THis is base condition (Ticket price is 15 rupees)
+        120 + (15 - Ticket_Price)/5*20;
+      
     }
 
-    //Actual profit that owner can get
-    def Net_Profit(Ticket_Price: Double, Attendance: Double) : Double = {
-        Profit(Ticket_Price, Attendance + Change_Of_Attendance(Ticket_Price)) - (500 + 3*(Attendance + Change_Of_Attendance(Ticket_Price)));
+    //Full profit without reduce cost
+    def Income(Ticket_Price: Double) : Double = Attendees(Ticket_Price)*Ticket_Price;
+
+
+    //Total cost
+    def Cost(Ticket_Price: Double) : Double = {
+        500 + Attendees(Ticket_Price)*3;
+    }
+
+    def Profit(Ticket_Price:Double):Double = {
+        Income(Ticket_Price) - Cost(Ticket_Price);
     }
 
     printf("Enter ticket price: ");
     var Ticket_Price = readInt();
-    printf("Profit : Rs." + Net_Profit(Ticket_Price, 120))
+    printf("Profit : Rs." + Profit(Ticket_Price))
     println("\n");
 
     
